@@ -1,0 +1,27 @@
+vpcId:
+  Description: Please enter the VPC id for subnets (dev-VPC vpc-028a187dad7264bf4, prod-VPC vpc-0b7709eb0439ca449)
+  Type: String
+  Default: vpc-028a187dad7264bf4
+  AllowedValues:
+    - "vpc-028a187dad7264bf4"
+    - "vpc-0b7709eb0439ca449"
+
+# ShareToAccountId:
+#   Description: Account ID to share subnet( Shared - 249524556340, dev-event - 247338496055, prod-event - 446658817395, master - 091205133872)
+#   Type: String
+#   Default: "247338496055"
+# #  AllowedValues:
+# #    - "249524556340"
+
+EnvironmentName:
+  Description: An environment name that will be prefixed to resource names
+  Type: String
+  Default: dev
+  AllowedValues:
+    - dev
+    - prod
+
+ApplicationName:
+  Description: Service Application name for this vpc
+  Type: String
+  Default: cloudeng

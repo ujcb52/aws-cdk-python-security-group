@@ -1,0 +1,262 @@
+Parameters:
+  vpcId:
+    Type: String
+    Default: vpc-028a187dad7264bf4
+    AllowedValues:
+      - vpc-028a187dad7264bf4
+      - vpc-0b7709eb0439ca449
+    Description: Please enter the VPC id for subnets (dev-VPC vpc-028a187dad7264bf4, prod-VPC vpc-0b7709eb0439ca449)
+  EnvironmentName:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - prod
+    Description: An environment name that will be prefixed to resource names
+  ApplicationName:
+    Type: String
+    Default: cloudeng
+    Description: Service Application name for this vpc
+  SsmParameterValuevpcIdC96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: vpcId
+  SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: envName
+  SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: appName
+Resources:
+  DefaultwebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-web
+      GroupName:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-web
+      VpcId:
+        Ref: SsmParameterValuevpcIdC96584B6F00A464EAD1953AFF4B05118Parameter
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultwebSecurityGroup
+  DefaultwebSecurityGroupIngress0:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 443
+      GroupId:
+        Ref: DefaultwebSecurityGroup
+      ToPort: 443
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultwebSecurityGroupIngress0
+  DefaultwebSecurityGroupIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      GroupId:
+        Ref: DefaultwebSecurityGroup
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultwebSecurityGroupIngress1
+  DefaultwebSecurityGroupEgress0:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId:
+        Ref: DefaultwebSecurityGroup
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultwebSecurityGroupEgress0
+  DefaultdbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-db
+      GroupName:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-db
+      VpcId:
+        Ref: SsmParameterValuevpcIdC96584B6F00A464EAD1953AFF4B05118Parameter
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultdbSecurityGroup
+  DefaultdbSecurityGroupIngress0:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 443
+      GroupId:
+        Ref: DefaultdbSecurityGroup
+      ToPort: 443
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultdbSecurityGroupIngress0
+  DefaultdbSecurityGroupIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      GroupId:
+        Ref: DefaultdbSecurityGroup
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultdbSecurityGroupIngress1
+  DefaultdbSecurityGroupEgress0:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId:
+        Ref: DefaultdbSecurityGroup
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultdbSecurityGroupEgress0
+  DefaultpublicSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-public
+      GroupName:
+        Fn::Join:
+          - ""
+          - - Ref: SsmParameterValueenvNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - "-"
+            - Ref: SsmParameterValueappNameC96584B6F00A464EAD1953AFF4B05118Parameter
+            - -Default-public
+      VpcId:
+        Ref: SsmParameterValuevpcIdC96584B6F00A464EAD1953AFF4B05118Parameter
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultpublicSecurityGroup
+  DefaultpublicSecurityGroupIngress0:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 443
+      GroupId:
+        Ref: DefaultpublicSecurityGroup
+      ToPort: 443
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultpublicSecurityGroupIngress0
+  DefaultpublicSecurityGroupIngress1:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      GroupId:
+        Ref: DefaultpublicSecurityGroup
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultpublicSecurityGroupIngress1
+  DefaultpublicSecurityGroupEgress0:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId:
+        Ref: DefaultpublicSecurityGroup
+      IpProtocol: tcp
+      CidrIp: 172.16.143.0/24
+      FromPort: 80
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: security-stacksets/DefaultpublicSecurityGroupEgress0
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.71.0,@aws-cdk/assets=1.58.0,@aws-cdk/aws-applicationautoscaling=1.58.0,@aws-cdk/aws-autoscaling-common=1.58.0,@aws-cdk/aws-cloudformation=1.58.0,@aws-cdk/aws-cloudwatch=1.58.0,@aws-cdk/aws-codeguruprofiler=1.58.0,@aws-cdk/aws-ec2=1.58.0,@aws-cdk/aws-efs=1.58.0,@aws-cdk/aws-events=1.58.0,@aws-cdk/aws-iam=1.45.0,@aws-cdk/aws-kms=1.58.0,@aws-cdk/aws-lambda=1.58.0,@aws-cdk/aws-logs=1.58.0,@aws-cdk/aws-s3=1.58.0,@aws-cdk/aws-s3-assets=1.58.0,@aws-cdk/aws-sns=1.45.0,@aws-cdk/aws-sqs=1.45.0,@aws-cdk/aws-ssm=1.58.0,@aws-cdk/cloud-assembly-schema=1.58.0,@aws-cdk/core=1.58.0,@aws-cdk/cx-api=1.58.0,@aws-cdk/region-info=1.58.0,jsii-runtime=Python/3.7.5
+    Condition: CDKMetadataAvailable
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
